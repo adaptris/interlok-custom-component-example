@@ -114,6 +114,11 @@
         <attribute name="Implementation-Vendor" value="${manifest.vendor}"/>
       </section>
     </manifest>
+    <propertyfile file="${classes.build.dir}/META-INF/adaptris-version">
+      <entry key="component.name" value="Service Example"/>
+      <entry key="build.version" value="${jar.version}"/>
+      <entry key="build.date" value="${today}"/>
+    </propertyfile>    
   </target>
 
   <target name="jar" depends="compile, jar.resources" description="Build a jar file">
