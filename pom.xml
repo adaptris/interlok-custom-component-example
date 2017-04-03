@@ -1,0 +1,71 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.adaptris</groupId>
+  <artifactId>interlok-service-example</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>interlok-service-example</name>
+
+  <properties>
+    <adp-core-version>3.6-SNAPSHOT</adp-core-version>
+  </properties>
+
+  <dependencies>
+    <!-- Base interlok dependencies -->
+    <dependency>
+      <groupId>com.adaptris</groupId>
+      <artifactId>adp-core</artifactId>
+      <version>${adp-core-version}</version>
+      <scope>compile</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.eclipse.jetty.aggregate</groupId>
+          <artifactId>jetty-all</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.adaptris</groupId>
+      <artifactId>adp-core-apt</artifactId>
+      <version>${adp-core-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.adaptris</groupId>
+      <artifactId>adp-stubs</artifactId>
+      <version>${adp-core-version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-jms_1.1_spec</artifactId>
+      <version>1.1.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <!-- Repository definitions for Adaptris repos -->
+  <repositories>
+    <repository>
+      <id>nexus-public</id>
+      <url>https://development.adaptris.net/nexus/content/groups/public</url>
+    </repository>
+    <repository>
+      <id>nexus-releases</id>
+      <url>https://development.adaptris.net/nexus/content/repositories/releases</url>
+    </repository>
+    <repository>
+      <id>nexus-snapshots</id>
+      <url>https://development.adaptris.net/nexus/content/repositories/snapshots</url>
+    </repository>
+  </repositories>
+
+</project>
