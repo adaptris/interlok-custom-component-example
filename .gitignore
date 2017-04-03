@@ -1,0 +1,13 @@
+.eclipse
+# ignore project files
+.classpath
+.project
+.idea
+.settings
+*.class
+*~
+.DS_Store
+*.ipr
+*.iml
+*.iws
+target
