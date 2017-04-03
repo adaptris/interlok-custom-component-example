@@ -3,13 +3,12 @@
 
 
 
-package com.tehnekes.loknekes;
+package com.adaptris.samples;
 
 import com.adaptris.core.*;
 import com.adaptris.core.util.*;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import org.hibernate.validator.constraints.NotBlank;
 
 @XStreamAlias("echo-service")
 public class EchoService extends ServiceImp {
