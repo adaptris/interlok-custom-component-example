@@ -14,12 +14,16 @@
     <property name="ivy.publish.revision" value="3.0-SNAPSHOT"/>  <!-- Version number of this artifact -->
     <property name="adp-core-version" value="3.0-SNAPSHOT"/>
 
-    <property name="src.dir" value="${basedir}/src"/>
+    <property name="src.dir" value="${basedir}/src/main/java"/>
+    <property name="src.test.dir" value="${basedir}/src/test/java"/>
 
     <property name="build.dir" value="${basedir}/build"/>
-    <property name="resources.dir" value="${basedir}/resources"/>
+    <property name="test.resources.dir" value="${basedir}/src/test/resources"/>
+    <property name="test.output.dir" value="${build.dir}/test/output"/>
+    <property name="test.report.dir" value="${build.dir}/test/reports"/>
 
     <property name="classes.build.dir" value="${build.dir}/classes"/>
+    <property name="test.build.dir" value="${build.dir}/test/classes"/>
     <property name="jar.version" value="${today}"/>
 
     <property name="build.tmp.dir" value="${build.dir}/tmp"/>
@@ -67,7 +71,7 @@
     <ivy:settings file="${basedir}/ivy-settings.xml" />
     <ivy:resolve file="${ivy.xml.file}" refresh="true" showprogress="false" log="${ivy.logging}"/>
     <ivy:cachepath pathid="classpath.ant-tools" conf="ant"/>
-    <ivy:cachepath pathid="main.classpath" conf="compile,runtime,test" type="jar,zip,bundle"/>
+    <ivy:cachepath pathid="main.classpath" conf="compile,runtime,test" type="jar,zip,bundle,eclipse-plugin,maven-plugin"/>
     <property name="anttools.classpath" refid="classpath.ant-tools"/>
     <property name="cc.classpath" refid="main.classpath"/>
     <echo message="Ivy Resolved Classpath - ${cc.classpath}" level="verbose"/>
@@ -81,6 +85,9 @@
   <target name="prepare" depends="init, prepare-ivy">
     <mkdir dir="${build.dir}"/>
     <mkdir dir="${classes.build.dir}"/>
+    <mkdir dir="${test.build.dir}"/>
+    <mkdir dir="${test.report.dir}"/>
+    <mkdir dir="${test.output.dir}"/>
     <mkdir dir="${build.tmp.dir}"/>
     <mkdir dir="${project.dist.dir}"/>
   </target>
@@ -114,5 +121,42 @@
       <fileset dir="${classes.build.dir}"/>
     </jar>
   </target>
+  
+  <target name="compile-tests" depends="compile, jar">
+    <mkdir dir="${test.build.dir}"/>
+    <javac source="${javac.version}" target="${javac.version}" destdir="${test.build.dir}" srcdir="${src.test.dir}" debug="on" debuglevel="source,lines,vars">
+      <classpath id="classpath.compiletests">
+        <pathelement path="${classes.build.dir}"/>
+        <path refid="main.classpath"/>
+      </classpath>
+    </javac>
+  </target>  
 
+  <target name="test" depends="compile-tests" description="Run Tests">
+    <junit printsummary="true" fork="true" forkmode="once" showoutput="yes" failureproperty="junit.failed">
+      <jvmarg value="-XX:-UseSplitVerifier"/>
+      <jvmarg value="-XX:+CMSClassUnloadingEnabled"/>
+      <jvmarg value="-XX:+UseConcMarkSweepGC"/>
+      <jvmarg value="-XX:+UseParNewGC"/>
+      <formatter type="xml"/>
+      <batchtest todir="${test.output.dir}">
+        <fileset dir="${src.test.dir}">
+          <include name="**/*Test*.java"/>
+        </fileset>
+      </batchtest>
+      <classpath>
+       <path refid="main.classpath"/>
+       <pathelement path="${classes.build.dir}"/>
+       <pathelement path="${test.build.dir}"/>
+       <dirset dir="${test.resources.dir}"/>
+     </classpath>
+    </junit>  
+    <junitreport todir="${test.report.dir}">
+      <fileset dir="${test.output.dir}">
+        <include name="TEST-*.xml" />
+      </fileset>
+      <report format="frames" todir="${test.report.dir}"/>
+    </junitreport>
+    <fail message="JUNIT tests failed, check output in ${test.output.dir} or ${test.report.dir}" if="junit.failed"/>
+  </target>
 </project>

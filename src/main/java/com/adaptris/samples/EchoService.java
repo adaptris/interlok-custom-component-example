@@ -1,8 +1,4 @@
 
-
-
-
-
 package com.adaptris.samples;
 
 import com.adaptris.core.*;

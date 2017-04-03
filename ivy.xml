@@ -27,13 +27,13 @@
   	<dependency org="junit" name="junit" rev="4.11" conf="test->default"/>
   	<dependency org="org.slf4j" name="slf4j-log4j12" rev="1.7.24" conf="runtime->default"/>
   	<dependency org="org.mockito" name="mockito-all" rev="1.9.5" conf="test->default"/>
+    <dependency org="org.apache.geronimo.specs" name="geronimo-jms_1.1_spec" rev="1.1.1" conf="test->default"/>
 
     <!-- For Various ANT Tasks -->
     <dependency org="ant-contrib" name="ant-contrib" rev="1.0b3" conf="ant->default" transitive="false"/>
 
 
     <exclude org="commons-logging"/>
-    <exclude org="org.apache.geronimo.specs"/>
     <exclude org="org.apache.ant" artifact="ant"/>
     <exclude org="org.apache.ant" artifact="ant-launcher"/>
     <exclude org="ant"/>
