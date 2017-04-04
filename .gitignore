@@ -1,0 +1,6 @@
+# Standard project files
+.eclipse
+build.properties
+target
+.gradle
+project/target
