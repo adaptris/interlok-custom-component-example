@@ -34,6 +34,20 @@
     <property name="project.jar.name" value = "${project.name}.jar"/>
 
     <property name="javac.version" value="1.7"/>
+
+    <property environment="env"/>
+    <property name="env.COMPUTERNAME" value="${env.HOSTNAME}"/>
+    <condition property="requires.proxy" value="true">
+      <or>
+        <equals arg1="${env.COMPUTERNAME}" arg2="PHOOEY"/>
+      </or>
+    </condition>
+    <!-- Good old property immutability to the rescue -->
+    <property name="requires.proxy" value="false"/>
+  </target>
+
+  <target name="init-proxy" depends="init" if="${requires.proxy}">
+    <setproxy proxyhost="${proxy.host}" proxyport="${proxy.port}"/>
   </target>
 
   <!-- clean -->
@@ -42,7 +56,7 @@
   </target>
 
 
-  <target name="init-ivy">
+  <target name="init-ivy" depends="init-proxy">
     <property name="ivy.install.version" value="2.3.0"/>
     <property name="ivy.repo" value="nexus-snapshots"/>
     <property name="ivy.dir" value="${build.dir}/ivy"/>
@@ -82,7 +96,7 @@
 
   <target name="prepare-ivy" depends="taskdef.init" description="Loads all the ivy definitions and settings"/>
 
-  <target name="prepare" depends="init, prepare-ivy">
+  <target name="prepare" depends="init,prepare-ivy">
     <mkdir dir="${build.dir}"/>
     <mkdir dir="${classes.build.dir}"/>
     <mkdir dir="${test.build.dir}"/>
@@ -118,7 +132,7 @@
       <entry key="component.name" value="Service Example"/>
       <entry key="build.version" value="${jar.version}"/>
       <entry key="build.date" value="${today}"/>
-    </propertyfile>    
+    </propertyfile>
   </target>
 
   <target name="jar" depends="compile, jar.resources" description="Build a jar file">
@@ -126,7 +140,7 @@
       <fileset dir="${classes.build.dir}"/>
     </jar>
   </target>
-  
+
   <target name="compile-tests" depends="compile, jar">
     <mkdir dir="${test.build.dir}"/>
     <javac source="${javac.version}" target="${javac.version}" destdir="${test.build.dir}" srcdir="${src.test.dir}" debug="on" debuglevel="source,lines,vars">
@@ -135,7 +149,7 @@
         <path refid="main.classpath"/>
       </classpath>
     </javac>
-  </target>  
+  </target>
 
   <target name="test" depends="compile-tests" description="Run Tests">
     <junit printsummary="true" fork="true" forkmode="once" showoutput="yes" failureproperty="junit.failed">
@@ -155,7 +169,7 @@
        <pathelement path="${test.build.dir}"/>
        <dirset dir="${test.resources.dir}"/>
      </classpath>
-    </junit>  
+    </junit>
     <junitreport todir="${test.report.dir}">
       <fileset dir="${test.output.dir}">
         <include name="TEST-*.xml" />
