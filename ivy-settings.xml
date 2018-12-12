@@ -1,6 +1,6 @@
 <ivysettings>
   <settings defaultResolver="chain-resolver"/>
-  <property name="nexus-base-url" value="https://development.adaptris.net"/>
+  <property name="nexus-base-url" value="https://nexus.adaptris.net"/>
 
   <property name="nexus-public" value="${nexus-base-url}/nexus/content/groups/public" override="false"/>
   <property name="nexus-releases" value="${nexus-base-url}/nexus/content/repositories/releases" override="false"/>
