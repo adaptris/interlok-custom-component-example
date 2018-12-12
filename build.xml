@@ -11,8 +11,8 @@
 
     <property name="manifest.title" value="Interlok Component"/>
     <property name="manifest.vendor" value="Adaptris Ltd"/>
-    <property name="ivy.publish.revision" value="3.0-SNAPSHOT"/>  <!-- Version number of this artifact -->
-    <property name="adp-core-version" value="3.0-SNAPSHOT"/>
+    <property name="ivy.publish.revision" value="3.8-SNAPSHOT"/>  <!-- Version number of this artifact -->
+    <property name="interlok-core-version" value="3.8-SNAPSHOT"/>
 
     <property name="src.dir" value="${basedir}/src/main/java"/>
     <property name="src.test.dir" value="${basedir}/src/test/java"/>
