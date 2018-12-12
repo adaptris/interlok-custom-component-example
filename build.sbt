@@ -15,14 +15,14 @@ crossPaths := false
 // This forbids including Scala related libraries into the dependency
 autoScalaLibrary := false
 
-resolvers += "adaptris-public" at "https://development.adaptris.net/nexus/content/groups/public"
-resolvers += "adaptris-releases" at "https://development.adaptris.net/nexus/content/repositories/releases"
-resolvers += "adaptris-snapshots" at "https://development.adaptris.net/nexus/content/repositories/snapshots"
+resolvers += "adaptris-public" at "https://nexus.adaptris.net/nexus/content/groups/public"
+resolvers += "adaptris-releases" at "https://nexus.adaptris.net/nexus/content/repositories/releases"
+resolvers += "adaptris-snapshots" at "https://nexus.adaptris.net/nexus/content/repositories/snapshots"
 
 libraryDependencies ++= Seq(
-   "com.adaptris" % "adp-core" % "3.6-SNAPSHOT",
-   "com.adaptris" % "adp-core-apt" % "3.6-SNAPSHOT",
+   "com.adaptris" % "interlok-core" % "3.8-SNAPSHOT",
+   "com.adaptris" % "interlok-core-apt" % "3.8-SNAPSHOT",
    "junit" % "junit" % "4.11" % "test" , 
-   "com.adaptris" % "adp-stubs" % "3.6-SNAPSHOT" % "test",
+   "com.adaptris" % "interlok-stubs" % "3.8-SNAPSHOT" % "test",
    "org.mockito" % "mockito-all" % "1.9.5" % "test"
 )
