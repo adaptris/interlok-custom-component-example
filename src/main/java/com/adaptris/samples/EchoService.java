@@ -2,7 +2,6 @@
 package com.adaptris.samples;
 
 import com.adaptris.core.*;
-import com.adaptris.core.util.*;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 

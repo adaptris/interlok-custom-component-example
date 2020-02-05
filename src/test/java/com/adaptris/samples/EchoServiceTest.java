@@ -1,17 +1,21 @@
 package com.adaptris.samples;
 
-import com.adaptris.core.*;
+import org.junit.Test;
+
+import com.adaptris.core.AdaptrisMessageFactory;
+import com.adaptris.core.ServiceCase;
+
 
 public class EchoServiceTest extends ServiceCase {
 
-  public EchoServiceTest(java.lang.String testName) {
-    super(testName);
+  public EchoServiceTest() {
+    super();
   }
 
-  @Override
   protected void setUp() throws Exception {
   }
-
+  
+  @Test
   public void testService() throws Exception {
     execute(new EchoService(), AdaptrisMessageFactory.getDefaultInstance().newMessage());
   }
@@ -19,6 +23,10 @@ public class EchoServiceTest extends ServiceCase {
   @Override
   protected Object retrieveObjectForSampleConfig() {
     return new EchoService();
+  }
+  
+  public boolean isAnnotatedForJunit4() {
+    return true;
   }
 
 }
