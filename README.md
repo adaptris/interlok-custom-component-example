@@ -1,5 +1,8 @@
 # Custom Component Development
 
+![Github Action](https://github.com/adaptris/interlok-custom-component-example/workflows/Java%20CI/badge.svg?branch=gradle) [![Travis Status](https://travis-ci.com/adaptris/interlok-custom-component-example.svg?branch=gradle)](https://travis-ci.com/adaptris/interlok-custom-component-example) [![CircleCI](https://circleci.com/gh/adaptris/interlok-custom-component-example/tree/gradle.svg?style=svg)](https://circleci.com/gh/adaptris/interlok-custom-component-example/tree/gradle) [![codecov](https://codecov.io/gh/adaptris/interlok-custom-component-example/branch/gradle/graph/badge.svg)](https://codecov.io/gh/adaptris/interlok-custom-component-example) [![Total alerts](https://img.shields.io/lgtm/alerts/g/adaptris/interlok-custom-component-example.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/adaptris/interlok-custom-component-example/alerts/) [![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/adaptris/interlok-custom-component-example.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/adaptris/interlok-custom-component-example/context:java)
+
+
 A quick start to writing your own custom component; this is just an example of a custom service.
 
 ## Intro
@@ -46,7 +49,9 @@ You should be able to see various reports in `build/**/*.html`; along with a new
 
 ## 3rd party plugins/apps
 
-All these 3rd party items are either fully opensource, or free for opensource projects. We have enabled them on this sample project; but it is beyond the scope of this README to actually document *why* and *how* you use the plugins..
+All these 3rd party items are either fully opensource, or free for opensource projects. We have enabled them on this sample project; but it is beyond the scope of this README to actually document *why* and *how* you use the plugins...
+
+Also; we get badges from the apps; and you know what, you _gotta catch 'em all_
 
 * [LGTM](https://lgtm.com) is enabled via a `.lgtm.yml` file; we use this to contextually scan source code.
 * jacoco coverage is enabled and reports will be generated when `check` is invoked
