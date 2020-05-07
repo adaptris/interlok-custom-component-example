@@ -51,7 +51,7 @@ You should be able to see various reports in `build/**/*.html`; along with a new
 
 All these 3rd party items are either fully opensource, or free for opensource projects. We have enabled them on this sample project; but it is beyond the scope of this README to actually document *why* and *how* you use the plugins...
 
-Also; we get badges from the apps; and you know what, you _gotta catch 'em all_
+Also; we get badges from the apps; and you know what, you [_gotta catch 'em all_](https://www.youtube.com/watch?v=lrHJhKEtQEI). Traditionally, in our opensource development, we always try to use (at least) 3 separate CI build tools following the reasoning that if 1/3 fails, then we can still be confident things are mostly OK; 2/3 we probably have a regression.
 
 * [LGTM](https://lgtm.com) is enabled via a `.lgtm.yml` file; we use this to contextually scan source code.
 * jacoco coverage is enabled and reports will be generated when `check` is invoked
@@ -59,14 +59,15 @@ Also; we get badges from the apps; and you know what, you _gotta catch 'em all_
 * Spotbugs is enabled via a gradle plugin; this is used to statically analyze source code; the gradle file is annotated such that you can add various filters as required.
     * This will be executed when you do `check`
     * Spotbugs analysis is disabled on test resources.
-* OWASP dependency checks are enabled via a gradle plugin
+* [OWASP dependency checks](https://owasp.org/www-project-dependency-check/) are enabled via a gradle plugin
     * You need to execute this manually using `gradle dependencyCheckAnalyze`
     * We have included a pointer to our standard suppression file
-* [CircleCI](https://circleci.com)is enabled on the project to test building both with Java11 + Java8 via `.circleci/config.yml`
+* [CircleCI](https://circleci.com) is enabled on the project to test building both with Java11 + Java8 via `.circleci/config.yml`
     * Coverage results from jacoco are injected into [codecov.io](https://codecov.io)
 * [Travis-CI](https://travis-ci.com) is enabled on the project via `.travis.yml`
     * Coverage results from jacoco are injected into [codecov.io](https://codecov.io)
     * This means if you build with both circleCI + Travis you might get duplicate codecov entries.
+    * Note that is forced onto the `gradle` branch only.
 * Github Actions are enabled via `.github/workflows/gradle.yml` - this runs the `check` task
     * Of course you could enable codecov integration on this as well.
 * [dependabot](https://dependabot.com) is enabled via `.dependabot/config.yml` for managing dependencies; you could use whitesource renovate instead to manage updates to your dependencies.
