@@ -14,18 +14,18 @@ The things you should consider changing are (You don't have to, but it will make
 
 Some of these properties can be override by putting (the ones that use ?: ternary operators) those properties in a `gradle.properties` file. In most cases variables that should be environment specific are done like; variables that are specific to the build are left as normal variables defined in the gradle script.
 
-| Gradle Entry | Impact | Description |
-| ---| --- |--- | --- |
-| componentName | JAR Manifest / UI | A short description of your component that shows up as the title in the optional components page |
-| organizationName | JAR Manifest | Your organization (apologies for the americanism) |
-| releaseVersion | JAR Manifest / Maven Repo | The version of your artifact |
-| artifactGroup | JAR Manifest / Maven Repo | Your artifacts group name |
-| componentDescription | UI |  A longer description that shows up inthe UI |
-| componentTargetInterlokVersion | UI| Your target interlok version |
-| componentInterlokTags | UI | Tags you want to show up in the UI |
-| componentRequiresLicense | UI | Whether or not your custom component requires a license |
-| mavenPublishUrl | Build | Where you are going to publish the artifact to. We don't yet have a good answer for a centralised Interlok artifact repository; this may cause some discoverability issues. |
-| defaultNexusRepo | Build | if you have a custom maven repository that contains additional dependencies, then specify it here |
+Gradle Entry | Impact | Description |
+-------|------------|------|
+componentName | JAR Manifest / UI | A short description of your component that shows up as the title in the optional components page |
+organizationName | JAR Manifest | Your organization (apologies for the americanism) |
+releaseVersion | JAR Manifest / Maven Repo | The version of your artifact |
+artifactGroup | JAR Manifest / Maven Repo | Your artifacts group name |
+componentDescription | UI |  A longer description that shows up inthe UI |
+componentTargetInterlokVersion | UI| Your target interlok version |
+componentInterlokTags | UI | Tags you want to show up in the UI |
+componentRequiresLicense | UI | Whether or not your custom component requires a license |
+mavenPublishUrl | Build | Where you are going to publish the artifact to. We don't yet have a good answer for a centralised Interlok artifact repository; this may cause some discoverability issues. |
+defaultNexusRepo | Build | if you have a custom maven repository that contains additional dependencies, then specify it here |
 
 
 ## Your first build
