@@ -20,7 +20,6 @@ ext {
 
   repoUsername = project.hasProperty('repoUsername') ? project.getProperty('repoUsername') : 'please override in gradle.properties'
   repoPassword = project.hasProperty('repoPassword') ? project.getProperty('repoPassword') : 'please override in gradle.properties'
-  defaultNexusRepo = project.hasProperty('defaultNexusRepo') ? project.getProperty('defaultNexusRepo') : 'https://repo1.maven.org/maven2/'
 
   // Offline javadocs are downloaded to create javadoc links from their respective package-list files.
   offlineJavadocPackageDir = new File(project.buildDir, "offline-javadoc-packages")
@@ -75,8 +74,11 @@ def versionDir = "$buildDir/version"
 
 // In this section you declare where to find the dependencies of your project
 repositories {
-  mavenCentral()
-  maven { url "$defaultNexusRepo" }
+  mavenCentral {
+    content {
+      excludeGroupByRegex "com\\.adaptris.*"
+    }
+  }
   maven { url "$nexusBaseUrl/content/groups/public" }
   maven { url "$nexusBaseUrl/content/groups/interlok" }
 }
