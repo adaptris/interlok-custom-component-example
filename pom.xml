@@ -7,9 +7,45 @@
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
   <name>interlok-service-example</name>
-
+  <description>A description of this component</description>
+  
+  <!-- URL to where the main documentation for the component is -->
+  <!-- <url>https://interlok.adaptris.net/interlok-docs/#/</url> -->
+    
   <properties>
     <interlok-core-version>3.8-SNAPSHOT</interlok-core-version>
+      
+    <!-- 
+    NOTE: These commented out properties are all related to integrating this component with the Interlok UI
+    https://interlok.adaptris.net/interlok-docs/#/pages/ui/ui-optional-component-discovery
+    --> 
+      
+    <!-- Component Tags are primarily used in the search features of the UI and the value should be a comma separated string -->
+    <!-- <property name="tags" value="example,transform,jdbc"/> -->
+      
+    <!-- Some additonal notes that might be important for the user to know before downloading/using -->
+    <!-- <property name="notes" value="Requires additional jars not automatically delivered"/> -->
+      
+    <!-- This is the Interlok version that this component was developed for -->
+    <!-- <property name="target" value="3.8.0+"/> -->
+      
+    <!-- Whether or not your custom component requires a license (true|false) -->
+    <!-- <property name="license" value="false"/> -->
+      
+    <!-- Text to inform the user that the component is deprecated -->
+    <!-- <property name="deprecated" value="This component has been deprecated from 3.9.0 and you should use interlok-new-thing instead"/> -->
+    
+    <!-- Inform the user that this component is a stub or development only component, used for writing custom code against (true|false) -->
+    <!-- <property name="developerOnly" value="false"/> -->
+    
+    <!-- URL to supplementary documentation that you think would be useful for the end user -->
+    <!-- <property name="externalUrl" value="https://www.adaptris.com/interlok/"/> -->
+    
+    <!-- URL of where the user can checkout the source code for the component -->
+    <!-- <property name="repository" value="https://github.com/adaptris/interlok-service-example"/> -->
+    
+    <!-- URL to this projects README.md -->
+    <!-- <property name="readme" value="https://github.com/adaptris/interlok-service-example/raw/develop/README.md"/> -->
   </properties>
 
   <dependencies>
