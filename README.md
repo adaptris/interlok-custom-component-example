@@ -33,7 +33,7 @@ componentReadMe | UI | URL to this projects README.md |
 componentRepositoryLocation | UI | URL of where the user can checkout the source code for the component |
 componentNotes | UI | Text that might be important for the user to know before downloading |
 componentDeprecatedText | UI | Text to inform the user that the component is deprecated (leave blank if not deprecated) |
-componentDeveloperOnly | UI | Text to inform the user that this component is a stub or development only component |
+componentDeveloperOnly | UI | (true|false) to inform the user that this component is a stub or development only component |
 mavenPublishUrl | Build | Where you are going to publish the artifact to. We don't yet have a good answer for a centralised Interlok artifact repository; this may cause some discoverability issues. |
 defaultNexusRepo | Build | if you have a custom maven repository that contains additional dependencies, then specify it here |
 
