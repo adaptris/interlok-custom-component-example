@@ -232,10 +232,17 @@ publishing {
       pom.withXml {
         asNode().appendNode("name", componentName)
         asNode().appendNode("description", componentDescription)
+        asNode().appendNode("url", componentMainDocumentation)
         def properties = asNode().appendNode("properties")
         properties.appendNode("target", componentTargetInterlokVersion)
         properties.appendNode("tags", componentInterlokTags)
         properties.appendNode("license", componentRequiresLicense)
+        properties.appendNode("externalUrl", componentSupplementaryDocumentation)
+        properties.appendNode("readme", componentReadMe)
+        properties.appendNode("repository", componentRepositoryLocation)
+        properties.appendNode("notes", componentNotes)
+        properties.appendNode("deprecated", componentDeprecatedText)
+        properties.appendNode("developerOnly", componentDeveloperOnly)
       }
     }
   }
