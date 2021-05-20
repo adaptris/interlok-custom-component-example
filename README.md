@@ -2,20 +2,19 @@
 
 ![Github Action](https://github.com/adaptris/interlok-custom-component-example/workflows/Java%20CI/badge.svg?branch=gradle) [![CircleCI](https://circleci.com/gh/adaptris/interlok-custom-component-example/tree/gradle.svg?style=svg)](https://circleci.com/gh/adaptris/interlok-custom-component-example/tree/gradle) [![codecov](https://codecov.io/gh/adaptris/interlok-custom-component-example/branch/gradle/graph/badge.svg)](https://codecov.io/gh/adaptris/interlok-custom-component-example) [![Total alerts](https://img.shields.io/lgtm/alerts/g/adaptris/interlok-custom-component-example.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/adaptris/interlok-custom-component-example/alerts/) [![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/adaptris/interlok-custom-component-example.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/adaptris/interlok-custom-component-example/context:java)
 
-
 A quick start to writing your own custom component; this is just an example of a custom service.
 
 ## Intro
 
-* Java 8 is preferred for the 3.x branch; things will build with Java 11 etc but since annotations have changed from Java9 onwards our custom taglets / annotation processing may not fire.
+* Java 11 is required for the 4.x branch.
 
-We default to using gradle as the build tool; this is the preferred build system. You can opt to use something else (check the other branches), but we find gradle gives us the most flexbility along with useful conventions.
+We default to using gradle as the build tool; this is the preferred build system. You can opt to use something else (check the other branches), but we find gradle gives us the most flexibility along with useful conventions.
 
 ## Before you start
 
 The things you should consider changing are (You don't have to, but it will make your project a mystery when it comes to discoverability).
 
-Some of these properties can be override by putting (the ones that use ?: ternary operators) those properties in a `gradle.properties` file. In most cases variables that should be environment specific are done like; variables that are specific to the build are left as normal variables defined in the gradle script.
+Some of these properties can be overridden by putting (the ones that use ?: ternary operators) those properties in a `gradle.properties` file. In most cases variables that should be environment specific are done like; variables that are specific to the build are left as normal variables defined in the gradle script.
 
 Gradle Entry | Impact | Description |
 -------|------------|------|
@@ -23,7 +22,7 @@ componentName | JAR Manifest / UI | A short description of your component that s
 organizationName | JAR Manifest | Your organization (apologies for the americanism) |
 releaseVersion | JAR Manifest / Maven Repo | The version of your artifact |
 artifactGroup | JAR Manifest / Maven Repo | Your artifacts group name |
-componentDescription | UI |  A longer description that shows up inthe UI |
+componentDescription | UI |  A longer description that shows up in the UI |
 componentTargetInterlokVersion | UI| Your target interlok version |
 componentInterlokTags | UI | Tags you want to show up in the UI |
 componentRequiresLicense | UI | Whether or not your custom component requires a license (true/false) |
@@ -57,7 +56,7 @@ You should be able to see various reports in `build/**/*.html`; along with a new
 
 All these 3rd party items are either fully opensource, or free for opensource projects. We have enabled them on this sample project; but it is beyond the scope of this README to actually document *why* and *how* you use the plugins...
 
-Also; we get badges from the apps; and you know what, you [_gotta catch 'em all_](https://www.youtube.com/watch?v=lrHJhKEtQEI). Traditionally, in our opensource development, we always try to use (at least) 3 separate CI build tools following the reasoning that if 1/3 fails, then we can still be confident things are mostly OK; 2/3 we probably have a regression.
+Also, we get badges from the apps; and you know what, you [_gotta catch 'em all_](https://www.youtube.com/watch?v=lrHJhKEtQEI). Traditionally, in our opensource development, we always try to use (at least) 3 separate CI build tools following the reasoning that if 1/3 fails, then we can still be confident things are mostly OK; 2/3 we probably have a regression.
 
 * [LGTM](https://lgtm.com) is enabled via a `.lgtm.yml` file; we use this to contextually scan source code.
 * jacoco coverage is enabled and reports will be generated when `check` is invoked
@@ -75,7 +74,7 @@ Also; we get badges from the apps; and you know what, you [_gotta catch 'em all_
     * This means if you build with both circleCI + Travis you might get duplicate codecov entries.
     * Note that is forced onto the `gradle` branch only.
 * Github Actions are enabled via `.github/workflows/gradle.yml` - this runs the `check` task
-    * Of course you could enable codecov integration on this as well.
+    * Of course, you could enable codecov integration on this as well.
 * [dependabot](https://dependabot.com) is enabled via `.dependabot/config.yml` for managing dependencies; you could use whitesource renovate instead to manage updates to your dependencies.
     * Note that you may have to configure dependabot to add our public repositories.
 
@@ -85,4 +84,3 @@ Also; we get badges from the apps; and you know what, you [_gotta catch 'em all_
 If your project source control is git; then the generated `adaptris-version` will reflect the git branch. If it is what is considered the default branch, then the current date is used. All of this is done via the git executable which needs to be present on the path. You can disable this behaviour by modifying the __generateVersion__ task to remove the call to `buildInfo()`
 
 In this instance the generated `adaptris-version` file should contain a `build.info=gradle` since this is on the gradle branch.
-

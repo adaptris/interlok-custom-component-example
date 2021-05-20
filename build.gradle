@@ -10,20 +10,22 @@ plugins {
   id 'nebula.optional-base' version '6.0.0'
   id 'com.github.spotbugs' version '4.7.1'
   id 'org.owasp.dependencycheck' version '6.1.6'
+  id "io.freefair.lombok" version "5.3.3.3"
 }
 
 ext {
   interlokCoreVersion = project.hasProperty('interlokCoreVersion') ? project.getProperty('interlokCoreVersion') : '4.0.0-RELEASE'
-  releaseVersion = project.hasProperty('releaseVersion') ? project.getProperty('releaseVersion') : '4.0-SNAPSHOT'
+  releaseVersion = project.hasProperty('releaseVersion') ? project.getProperty('releaseVersion') : '4.0.0-RELEASE'
   nexusBaseUrl = project.hasProperty('nexusBaseUrl') ? project.getProperty('nexusBaseUrl') : 'https://nexus.adaptris.net/nexus'
   mavenPublishUrl = project.hasProperty('mavenPublishUrl') ? project.getProperty('mavenPublishUrl') : nexusBaseUrl + '/content/repositories/snapshots'
   javadocsBaseUrl = nexusBaseUrl + "/content/sites/javadocs/com/adaptris"
-
   repoUsername = project.hasProperty('repoUsername') ? project.getProperty('repoUsername') : 'please override in gradle.properties'
   repoPassword = project.hasProperty('repoPassword') ? project.getProperty('repoPassword') : 'please override in gradle.properties'
-
   // Offline javadocs are downloaded to create javadoc links from their respective package-list files.
   offlineJavadocPackageDir = new File(project.buildDir, "offline-javadoc-packages")
+
+  delombokTargetDir = new File("${project.projectDir}/src/main/generated")
+
   interlokJavadocs= project.hasProperty('interlokJavadocs') ? project.getProperty('interlokJavadocs') : javadocsBaseUrl + "/interlok-core/" + interlokCoreVersion
   interlokCommonJavadocs= project.hasProperty('interlokCommonJavadocs') ? project.getProperty('interlokCommonJavadocs') : javadocsBaseUrl + "/interlok-common/" + interlokCoreVersion
 
@@ -36,9 +38,8 @@ ext {
   componentInterlokTags = "awesome,dinosaurs,weather"
   componentRequiresLicense = "false"
   organizationUrl = "http://interlok.adaptris.net"
-
   slf4jVersion = '1.7.30'
-  mockitoVersion = '3.3.3'
+  mockitoVersion = '3.9.0'
 }
 
 if (JavaVersion.current().isJava8Compatible()) {
@@ -68,10 +69,12 @@ ext.buildInfo = { ->
     }
 }
 
-sourceCompatibility = 1.8
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
 group   = artifactGroup
 version = releaseVersion
 def versionDir = "$buildDir/version"
+generateLombokConfig.enabled = false
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -83,7 +86,6 @@ repositories {
   maven { url "$nexusBaseUrl/content/groups/public" }
   maven { url "$nexusBaseUrl/content/groups/interlok" }
 }
-
 
 configurations {
   javadoc {}
@@ -135,7 +137,6 @@ dependencies {
 
 }
 
-
 jar {
   manifest {
     attributes("Built-By": System.getProperty('user.name'),
@@ -146,7 +147,6 @@ jar {
                "Implementation-Vendor": organizationName)
   }
 }
-
 
 sourceSets {
   main {
@@ -179,7 +179,12 @@ task offlinePackageList(type: Copy) {
     }
   }
   include "package-list"
+  include "element-list"
   into offlineJavadocPackageDir
+}
+
+task deleteGeneratedFiles(type: Delete) {
+  delete delombokTargetDir
 }
 
 javadoc {
@@ -190,6 +195,10 @@ javadoc {
     options.addStringOption "tagletpath", configurations.javadoc.asPath
     title= componentName
   }
+}
+
+ext.hasGraphViz = { ->
+  return false
 }
 
 jacocoTestReport {
@@ -281,5 +290,11 @@ dependencyCheck  {
   suppressionFiles= [ "https://raw.githubusercontent.com/adaptris/interlok/develop/gradle/owasp-exclude.xml" ]
 }
 
+delombok {
+  target = delombokTargetDir
+}
+
+
 check.dependsOn jacocoTestReport
 javadoc.dependsOn offlinePackageList
+clean.dependsOn deleteGeneratedFiles
