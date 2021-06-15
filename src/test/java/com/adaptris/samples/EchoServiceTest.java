@@ -1,16 +1,12 @@
 package com.adaptris.samples;
 
-import com.adaptris.core.AdaptrisMessage;
-import com.adaptris.core.Service;
-import com.adaptris.interlok.junit.scaffolding.services.ExampleServiceCase;
-import org.junit.Before;
-import org.junit.Test;
-
-import com.adaptris.core.AdaptrisMessageFactory;
-import com.adaptris.core.ServiceCase;
-
 import static com.adaptris.samples.EchoService.DEFAULT;
 import static org.junit.Assert.assertEquals;
+import org.junit.Before;
+import org.junit.Test;
+import com.adaptris.core.AdaptrisMessage;
+import com.adaptris.core.AdaptrisMessageFactory;
+import com.adaptris.interlok.junit.scaffolding.services.ExampleServiceCase;
 
 
 public class EchoServiceTest extends ExampleServiceCase {
@@ -25,7 +21,7 @@ public class EchoServiceTest extends ExampleServiceCase {
     message = AdaptrisMessageFactory.getDefaultInstance().newMessage();
     service = new EchoService();
   }
-  
+
   @Test
   public void testService() throws Exception {
     execute(service, message);
@@ -40,12 +36,7 @@ public class EchoServiceTest extends ExampleServiceCase {
   }
 
   @Override
-  protected Object retrieveObjectForSampleConfig() {
+  protected EchoService retrieveObjectForSampleConfig() {
     return new EchoService();
   }
-  
-  public boolean isAnnotatedForJunit4() {
-    return true;
-  }
-
 }

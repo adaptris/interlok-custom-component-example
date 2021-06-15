@@ -14,7 +14,7 @@ We default to using gradle as the build tool; this is the preferred build system
 
 The things you should consider changing are (You don't have to, but it will make your project a mystery when it comes to discoverability).
 
-Some of these properties can be overridden by putting (the ones that use ?: ternary operators) those properties in a `gradle.properties` file. In most cases variables that should be environment specific are done like; variables that are specific to the build are left as normal variables defined in the gradle script.
+Some of these properties can be overridden by putting (the ones that use ?: ternary operators) those properties in a `gradle.properties` file. In most cases variables that should be environment specific are done like this; variables that are specific to the build are left as normal variables defined in the gradle script.
 
 Gradle Entry | Impact | Description |
 -------|------------|------|
@@ -67,16 +67,12 @@ Also, we get badges from the apps; and you know what, you [_gotta catch 'em all_
 * [OWASP dependency checks](https://owasp.org/www-project-dependency-check/) are enabled via a gradle plugin
     * You need to execute this manually using `gradle dependencyCheckAnalyze`
     * We have included a pointer to our standard suppression file
-* [CircleCI](https://circleci.com) is enabled on the project to test building both with Java11 + Java8 via `.circleci/config.yml`
+* [CircleCI](https://circleci.com) is enabled on the project to test building both with Java11 via `.circleci/config.yml`
     * Coverage results from jacoco are injected into [codecov.io](https://codecov.io)
-* [Travis-CI](https://travis-ci.com) is enabled on the project via `.travis.yml`
-    * Coverage results from jacoco are injected into [codecov.io](https://codecov.io)
-    * This means if you build with both circleCI + Travis you might get duplicate codecov entries.
-    * Note that is forced onto the `gradle` branch only.
+* ~~[Travis-CI](https://travis-ci.com) is enabled on the project via `.travis.yml`~~
 * Github Actions are enabled via `.github/workflows/gradle.yml` - this runs the `check` task
     * Of course, you could enable codecov integration on this as well.
-* [dependabot](https://dependabot.com) is enabled via `.dependabot/config.yml` for managing dependencies; you could use whitesource renovate instead to manage updates to your dependencies.
-    * Note that you may have to configure dependabot to add our public repositories.
+* [dependabot](https://dependabot.com) is enabled via `.github/dependabot.yml` for managing dependencies; you could use whitesource renovate instead to manage updates to your dependencies.
 
 ## Additional features
 

@@ -14,10 +14,10 @@ plugins {
 }
 
 ext {
-  interlokCoreVersion = project.hasProperty('interlokCoreVersion') ? project.getProperty('interlokCoreVersion') : '4.0.0-RELEASE'
-  releaseVersion = project.hasProperty('releaseVersion') ? project.getProperty('releaseVersion') : '4.0.0-RELEASE'
-  nexusBaseUrl = project.hasProperty('nexusBaseUrl') ? project.getProperty('nexusBaseUrl') : 'https://nexus.adaptris.net/nexus'
-  mavenPublishUrl = project.hasProperty('mavenPublishUrl') ? project.getProperty('mavenPublishUrl') : nexusBaseUrl + '/content/repositories/snapshots'
+  interlokCoreVersion = project.hasProperty('interlokCoreVersion') ?: '4.0.0-RELEASE'
+  releaseVersion = project.hasProperty('releaseVersion') ?: '4.0.0-RELEASE'
+  nexusBaseUrl = project.hasProperty('nexusBaseUrl') ?: 'https://nexus.adaptris.net/nexus'
+  mavenPublishUrl = project.hasProperty('mavenPublishUrl') ?: nexusBaseUrl + '/content/repositories/snapshots'
   javadocsBaseUrl = nexusBaseUrl + "/content/sites/javadocs/com/adaptris"
   repoUsername = project.hasProperty('repoUsername') ? project.getProperty('repoUsername') : 'please override in gradle.properties'
   repoPassword = project.hasProperty('repoPassword') ? project.getProperty('repoPassword') : 'please override in gradle.properties'
@@ -30,16 +30,20 @@ ext {
   interlokCommonJavadocs= project.hasProperty('interlokCommonJavadocs') ? project.getProperty('interlokCommonJavadocs') : javadocsBaseUrl + "/interlok-common/" + interlokCoreVersion
 
   // Change these things
-  componentName='My Custom Interlok Component'
-  artifactGroup = "com.adaptris"
+  artifactGroup = "io.github.adaptris"
   organizationName = "My Organisation"
+  organizationUrl = "http://interlok.adaptris.net"
+
+  componentName='My Custom Interlok Component'
   componentDescription = "My First Custom Component; it's awesome"
-  componentTargetInterlokVersion = "3.10.0+"
+  componentTargetInterlokVersion = "4.0.0+"
   componentInterlokTags = "awesome,dinosaurs,weather"
   componentRequiresLicense = "false"
-  organizationUrl = "http://interlok.adaptris.net"
-  slf4jVersion = '1.7.30'
-  mockitoVersion = '3.9.0'
+  componentMainDocumentation = "https://path/to/my/documentation"
+  componentSupplementaryDocumentation = "http://some.external.url/that/contains/my/3rd/party/service/docs"
+  componentReadMe = "https://github.com/my/repository/location/README.md"
+  componentRepositoryLocation = "https://github.com/my/repository/location"
+  componentNotes = "Supplementary notes"
 }
 
 if (JavaVersion.current().isJava8Compatible()) {
@@ -103,6 +107,9 @@ configurations {
   all*.exclude group: 'javax.validation', module: 'validation-api'
   all*.exclude group: 'javax.activation', module: 'activation'
   all*.exclude group: 'javax.activation', module: 'javax.activation-api'
+
+  // INTERLOK-3740 switch from jcraft to com.github.mwiede jsch fork.
+  all*.exclude group: 'com.jcraft', module: 'jsch'
 }
 
 configurations.all {
@@ -117,7 +124,7 @@ dependencies {
   testAnnotationProcessor ("com.adaptris:interlok-core-apt:$interlokCoreVersion") {changing= true}
 
   testImplementation "junit:junit:4.13.2"
-  testImplementation "org.slf4j:slf4j-simple:$slf4jVersion"
+  testImplementation "org.slf4j:slf4j-simple:1.7.30"
 
   // exclude any log4j dependencies so that we can just use slf4j simple.
   // works around INTERLOK-3233
@@ -126,10 +133,10 @@ dependencies {
     exclude group: "org.apache.logging.log4j"
   }
 
+  testImplementation ("org.awaitility:awaitility:4.0.2")
   // Unused deps.
-  // testImplementation ("org.awaitility:awaitility:4.0.2")
-  // testImplementation ("org.mockito:mockito-core:$mockitoVersion")
-  // testImplementation ("org.mockito:mockito-inline:$mockitoVersion")
+  // testImplementation ("org.mockito:mockito-core:3.11.1")
+  // testImplementation ("org.mockito:mockito-inline:3.11.1")
 
   javadoc("com.adaptris:interlok-core-apt:$interlokCoreVersion") { changing= true}
   offlineJavadocPackages ("com.adaptris:interlok-core:$interlokCoreVersion:javadoc@jar") { changing= true}
@@ -250,8 +257,9 @@ publishing {
         properties.appendNode("readme", componentReadMe)
         properties.appendNode("repository", componentRepositoryLocation)
         properties.appendNode("notes", componentNotes)
-        properties.appendNode("deprecated", componentDeprecatedText)
-        properties.appendNode("developerOnly", componentDeveloperOnly)
+        // Other things you might want to define to be helpful and useful.
+        // properties.appendNode("deprecated", componentDeprecatedText)
+        // properties.appendNode("developerOnly", componentDeveloperOnly)
       }
     }
   }
@@ -288,6 +296,13 @@ spotbugsTest.enabled = false
 // Add a suppression filter to owasp dependency checks.
 dependencyCheck  {
   suppressionFiles= [ "https://raw.githubusercontent.com/adaptris/interlok/develop/gradle/owasp-exclude.xml" ]
+  skipConfigurations = [ "antSql", "spotbugs", "umlDoclet", "offlineJavadocPackages", "javadoc", "jacocoAnt", "jacocoAgent", "spotbugsPlugins", "spotbugsSlf4j" ]
+  formats = [ "HTML", "JUNIT" ]
+  junitFailOnCVSS = 7.0
+  failBuildOnCVSS = 7.0
+  analyzers {
+    assemblyEnabled=false
+  }
 }
 
 delombok {
