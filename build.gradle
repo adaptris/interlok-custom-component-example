@@ -1,14 +1,14 @@
 import org.apache.tools.ant.taskdefs.condition.Os
-import org.apache.tools.ant.filters.*
 
 plugins {
-  id 'java'
+  id 'java-library'
   id 'maven-publish'
   id 'jacoco'
   id 'project-report'
   // Manage optional dependencies in maven pom.
   id 'nebula.optional-base' version '6.0.0'
   id 'com.github.spotbugs' version '4.7.1'
+  // dependencyCheck 6.2.2 isn't gradle 7.x compatible
   id 'org.owasp.dependencycheck' version '6.2.2'
   id "io.freefair.lombok" version "5.3.3.3"
 }
@@ -19,15 +19,15 @@ ext {
   nexusBaseUrl = project.hasProperty('nexusBaseUrl') ?: 'https://nexus.adaptris.net/nexus'
   mavenPublishUrl = project.hasProperty('mavenPublishUrl') ?: nexusBaseUrl + '/content/repositories/snapshots'
   javadocsBaseUrl = nexusBaseUrl + "/content/sites/javadocs/com/adaptris"
-  repoUsername = project.hasProperty('repoUsername') ? project.getProperty('repoUsername') : 'please override in gradle.properties'
-  repoPassword = project.hasProperty('repoPassword') ? project.getProperty('repoPassword') : 'please override in gradle.properties'
+  repoUsername = project.hasProperty('repoUsername') ? project.getProperty('repoUsername') : 'override in gradle.properties'
+  repoPassword = project.hasProperty('repoPassword') ? project.getProperty('repoPassword') : 'override in gradle.properties'
   // Offline javadocs are downloaded to create javadoc links from their respective package-list files.
   offlineJavadocPackageDir = new File(project.buildDir, "offline-javadoc-packages")
 
   delombokTargetDir = new File("${project.projectDir}/src/main/generated")
 
-  interlokJavadocs= project.hasProperty('interlokJavadocs') ? project.getProperty('interlokJavadocs') : javadocsBaseUrl + "/interlok-core/" + interlokCoreVersion
-  interlokCommonJavadocs= project.hasProperty('interlokCommonJavadocs') ? project.getProperty('interlokCommonJavadocs') : javadocsBaseUrl + "/interlok-common/" + interlokCoreVersion
+  interlokJavadocs= project.hasProperty('interlokJavadocs') ?: javadocsBaseUrl + "/interlok-core/" + interlokCoreVersion
+  interlokCommonJavadocs= project.hasProperty('interlokCommonJavadocs') ?: javadocsBaseUrl + "/interlok-common/" + interlokCoreVersion
 
   // Change these things
   artifactGroup = "io.github.adaptris"
@@ -46,22 +46,22 @@ ext {
   componentNotes = "Supplementary notes"
 }
 
-if (JavaVersion.current().isJava8Compatible()) {
-  allprojects {
-    tasks.withType(Javadoc) {
-      options.addStringOption('Xdoclint:none', '-quiet')
+ext.buildUtil = [
+  hostname: { ->
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+      return System.getenv("COMPUTERNAME")
     }
-  }
-}
+    return System.getenv("HOSTNAME")
+  },
 
-ext.gitBranchNameOrTimestamp = { branchName ->
-  if (branchName.equals("HEAD") || branchName.equals("develop") || branchName.startsWith("release")) {
-    return new Date().format('HH:mm:ss z');
-  }
-  return branchName;
-}
+  gitBranchNameOrTimestamp: { branchName ->
+    if (branchName.equals("HEAD") || branchName.equals("develop") || branchName.startsWith("release")) {
+      return new Date().format('HH:mm:ss z');
+    }
+    return branchName;
+  },
 
-ext.buildInfo = { ->
+  buildInfo: { ->
    new ByteArrayOutputStream().withStream { os ->
       exec {
         executable = "git"
@@ -69,9 +69,11 @@ ext.buildInfo = { ->
         standardOutput = os
       }
       def branchName = os.toString().replaceAll("\r", "").replaceAll("\n", "").trim();
-      return gitBranchNameOrTimestamp(branchName);
+      return buildUtil.gitBranchNameOrTimestamp(branchName);
     }
-}
+  }
+]
+
 
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
@@ -80,7 +82,6 @@ version = releaseVersion
 def versionDir = "$buildDir/version"
 generateLombokConfig.enabled = false
 
-// In this section you declare where to find the dependencies of your project
 repositories {
   mavenCentral() {
     content {
@@ -117,8 +118,8 @@ configurations.all {
 }
 
 dependencies {
-  compile ("com.adaptris:interlok-core:$interlokCoreVersion") { changing= true}
-  compile ("com.adaptris:interlok-common:$interlokCoreVersion") { changing= true}
+  api ("com.adaptris:interlok-core:$interlokCoreVersion") {changing= true}
+  api ("com.adaptris:interlok-common:$interlokCoreVersion") {changing= true}
 
   annotationProcessor ("com.adaptris:interlok-core-apt:$interlokCoreVersion") {changing= true}
   testAnnotationProcessor ("com.adaptris:interlok-core-apt:$interlokCoreVersion") {changing= true}
@@ -126,12 +127,7 @@ dependencies {
   testImplementation "junit:junit:4.13.2"
   testImplementation "org.slf4j:slf4j-simple:1.7.30"
 
-  // exclude any log4j dependencies so that we can just use slf4j simple.
-  // works around INTERLOK-3233
-  testImplementation "com.adaptris:interlok-stubs:$interlokCoreVersion", {
-    changing= true
-    exclude group: "org.apache.logging.log4j"
-  }
+  testImplementation ("com.adaptris:interlok-stubs:$interlokCoreVersion") {changing= true }
 
   testImplementation ("org.awaitility:awaitility:4.0.2")
   // Unused deps.
@@ -171,7 +167,7 @@ task generateVersion {
       entry(key: 'artifactId', value: project.name)
       entry(key: 'build.version', value: releaseVersion)
       entry(key: 'build.date', value: new Date().format('yyyy-MM-dd'))
-      entry(key: 'build.info', value: buildInfo())
+      entry(key: 'build.info', value: buildUtil.buildInfo())
     }
   }
 }
@@ -200,12 +196,10 @@ javadoc {
     options.linksOffline(interlokCommonJavadocs, offlineJavadocPackageDir.getCanonicalPath() + "/interlok-common-$interlokCoreVersion-javadoc.jar")
     taglets = ["com.adaptris.taglet.ConfigTaglet", "com.adaptris.taglet.LicenseTaglet"]
     options.addStringOption "tagletpath", configurations.javadoc.asPath
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addBooleanOption("-no-module-directories", true)
     title= componentName
   }
-}
-
-ext.hasGraphViz = { ->
-  return false
 }
 
 jacocoTestReport {
@@ -309,7 +303,7 @@ delombok {
   target = delombokTargetDir
 }
 
-
+defaultTasks 'check'
 check.dependsOn jacocoTestReport
 javadoc.dependsOn offlinePackageList
 clean.dependsOn deleteGeneratedFiles
