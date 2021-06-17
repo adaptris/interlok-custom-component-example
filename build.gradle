@@ -8,7 +8,6 @@ plugins {
   // Manage optional dependencies in maven pom.
   id 'nebula.optional-base' version '6.0.0'
   id 'com.github.spotbugs' version '4.7.1'
-  // dependencyCheck 6.2.2 isn't gradle 7.x compatible
   id 'org.owasp.dependencycheck' version '6.2.2'
   id "io.freefair.lombok" version "5.3.3.3"
 }
@@ -290,7 +289,7 @@ spotbugsTest.enabled = false
 // Add a suppression filter to owasp dependency checks.
 dependencyCheck  {
   suppressionFiles= [ "https://raw.githubusercontent.com/adaptris/interlok/develop/gradle/owasp-exclude.xml" ]
-  skipConfigurations = [ "antSql", "spotbugs", "umlDoclet", "offlineJavadocPackages", "javadoc", "jacocoAnt", "jacocoAgent", "spotbugsPlugins", "spotbugsSlf4j" ]
+  scanConfigurations = [ "compileClasspath", "runtimeClasspath" ]
   formats = [ "HTML", "JUNIT" ]
   junitFailOnCVSS = 7.0
   failBuildOnCVSS = 7.0
