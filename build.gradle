@@ -13,20 +13,20 @@ plugins {
 }
 
 ext {
-  interlokCoreVersion = project.hasProperty('interlokCoreVersion') ?: '4.0.0-RELEASE'
-  releaseVersion = project.hasProperty('releaseVersion') ?: '4.0.0-RELEASE'
-  nexusBaseUrl = project.hasProperty('nexusBaseUrl') ?: 'https://nexus.adaptris.net/nexus'
-  mavenPublishUrl = project.hasProperty('mavenPublishUrl') ?: nexusBaseUrl + '/content/repositories/snapshots'
+  interlokCoreVersion = project.findProperty('interlokCoreVersion') ?: '4.0.0-RELEASE'
+  releaseVersion = project.findProperty('releaseVersion') ?: '4.0.0-RELEASE'
+  nexusBaseUrl = project.findProperty('nexusBaseUrl') ?: 'https://nexus.adaptris.net/nexus'
+  mavenPublishUrl = project.findProperty('mavenPublishUrl') ?: nexusBaseUrl + '/content/repositories/snapshots'
   javadocsBaseUrl = nexusBaseUrl + "/content/sites/javadocs/com/adaptris"
-  repoUsername = project.hasProperty('repoUsername') ? project.getProperty('repoUsername') : 'override in gradle.properties'
-  repoPassword = project.hasProperty('repoPassword') ? project.getProperty('repoPassword') : 'override in gradle.properties'
+  repoUsername = project.findProperty('repoUsername') ?: 'override in gradle.properties'
+  repoPassword = project.findProperty('repoPassword') ?: 'override in gradle.properties'
   // Offline javadocs are downloaded to create javadoc links from their respective package-list files.
   offlineJavadocPackageDir = new File(project.buildDir, "offline-javadoc-packages")
 
   delombokTargetDir = new File("${project.projectDir}/src/main/generated")
 
-  interlokJavadocs= project.hasProperty('interlokJavadocs') ?: javadocsBaseUrl + "/interlok-core/" + interlokCoreVersion
-  interlokCommonJavadocs= project.hasProperty('interlokCommonJavadocs') ?: javadocsBaseUrl + "/interlok-common/" + interlokCoreVersion
+  interlokJavadocs= project.findProperty('interlokJavadocs') ?: javadocsBaseUrl + "/interlok-core/" + interlokCoreVersion
+  interlokCommonJavadocs= project.findProperty('interlokCommonJavadocs') ?: javadocsBaseUrl + "/interlok-common/" + interlokCoreVersion
 
   // Change these things
   artifactGroup = "io.github.adaptris"
