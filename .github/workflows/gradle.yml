@@ -42,3 +42,5 @@ jobs:
     - name: Gradle Check
       run: |
         ./gradlew -Dorg.gradle.console=plain --no-daemon clean check
+    - name: codecov.io
+      uses: codecov/codecov-action@v2.0.1

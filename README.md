@@ -65,18 +65,22 @@ Also, we get badges from the apps; and you know what, you [_gotta catch 'em all_
     * This will be executed when you do `check`
     * Spotbugs analysis is disabled on test resources.
 * [OWASP dependency checks](https://owasp.org/www-project-dependency-check/) are enabled via a gradle plugin
-    * You need to execute this manually using `gradle dependencyCheckAnalyze`
+    * You need to execute this manually using `./gradlew dependencyCheckAnalyze`
     * We have included a pointer to our standard suppression file
 * [CircleCI](https://circleci.com) is enabled on the project to test building both with Java11 via `.circleci/config.yml`
-    * Coverage results from jacoco are injected into [codecov.io](https://codecov.io)
+    * ~~Coverage results from jacoco are injected into [codecov.io](https://codecov.io)~~
 * ~~[Travis-CI](https://travis-ci.com) is enabled on the project via `.travis.yml`~~
 * Github Actions are enabled via `.github/workflows/gradle.yml` - this runs the `check` task
-    * Of course, you could enable codecov integration on this as well.
+    * Coverage results from jacoco are injected into [codecov.io](https://codecov.io)
+* [AppVeyor](https://www.appveyor.com/) configuration is in `appveyor.yml`
 * [dependabot](https://dependabot.com) is enabled via `.github/dependabot.yml` for managing dependencies; you could use whitesource renovate instead to manage updates to your dependencies.
 
 ## Additional features
 
 ### Versioning info based on git branch
-If your project source control is git; then the generated `adaptris-version` will reflect the git branch. If it is what is considered the default branch, then the current date is used. All of this is done via the git executable which needs to be present on the path. You can disable this behaviour by modifying the __generateVersion__ task to remove the call to `buildInfo()`
+
+If your project source control is git; then the generated `adaptris-version` will reflect the git branch. If it is what is considered the default branch, then the current date is used. All of this is done via the git executable which needs to be present on the path. If this isn't a git repo then a static "No Git Info" message is used for build information.
+
+- You might consider using something like `net.nemerosa.versioning` plugin to generate your version.
 
 In this instance the generated `adaptris-version` file should contain a `build.info=gradle` since this is on the gradle branch.
