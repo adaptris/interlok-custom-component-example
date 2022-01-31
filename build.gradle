@@ -145,8 +145,6 @@ dependencies {
   api ("com.adaptris:interlok-core:$interlokCoreVersion") {changing= true}
   api ("com.adaptris:interlok-common:$interlokCoreVersion") {changing= true}
   
-  api ("com.thoughtworks.xstream:xstream:1.4.18")
-
   annotationProcessor ("com.adaptris:interlok-core-apt:$interlokCoreVersion") {changing= true}
   testAnnotationProcessor ("com.adaptris:interlok-core-apt:$interlokCoreVersion") {changing= true}
 
