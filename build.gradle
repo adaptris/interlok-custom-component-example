@@ -149,7 +149,7 @@ dependencies {
   testAnnotationProcessor ("com.adaptris:interlok-core-apt:$interlokCoreVersion") {changing= true}
 
   testImplementation "junit:junit:4.13.2"
-  testImplementation "org.slf4j:slf4j-simple:2.0.3"
+  testImplementation "org.slf4j:slf4j-simple:2.0.6"
 
   testImplementation ("com.adaptris:interlok-stubs:$interlokCoreVersion") {changing= true }
 
