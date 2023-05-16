@@ -1,6 +1,15 @@
 # Custom Component Development
 
-![Github Action](https://github.com/adaptris/interlok-custom-component-example/workflows/Java%20CI/badge.svg?branch=gradle) [![CircleCI](https://circleci.com/gh/adaptris/interlok-custom-component-example/tree/gradle.svg?style=svg)](https://circleci.com/gh/adaptris/interlok-custom-component-example/tree/gradle) [![codecov](https://codecov.io/gh/adaptris/interlok-custom-component-example/branch/gradle/graph/badge.svg)](https://codecov.io/gh/adaptris/interlok-custom-component-example) [![Total alerts](https://img.shields.io/lgtm/alerts/g/adaptris/interlok-custom-component-example.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/adaptris/interlok-custom-component-example/alerts/) [![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/adaptris/interlok-custom-component-example.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/adaptris/interlok-custom-component-example/context:java) [![AppVeyor](https://ci.appveyor.com/api/projects/status/bxixbf1d9wt4ju4o?svg=true)](https://ci.appveyor.com/project/adaptris/interlok-custom-component-example)
+
+[![GitHub tag](https://img.shields.io/github/tag/adaptris/interlok-custom-component-example.svg)](https://github.com/adaptris/interlok-custom-component-example/tags)
+[![license](https://img.shields.io/github/license/adaptris/interlok-custom-component-example.svg)](https://github.com/adaptris/interlok-custom-component-example/blob/develop/LICENSE)
+[![Actions Status](https://github.com/adaptris/interlok-custom-component-example/actions/workflows/gradle-publish.yml/badge.svg)](https://github.com/adaptris/interlok-custom-component-example/actions)
+[![codecov](https://codecov.io/gh/adaptris/interlok-custom-component-example/branch/gradle/graph/badge.svg)](https://codecov.io/gh/adaptris/interlok-custom-component-example)
+[![CodeQL](https://github.com/adaptris/interlok-custom-component-example/workflows/CodeQL/badge.svg)](https://github.com/adaptris/interlok-custom-component-example/security/code-scanning)
+[![Known Vulnerabilities](https://snyk.io/test/github/adaptris/interlok-custom-component-example/badge.svg?targetFile=build.gradle)](https://snyk.io/test/github/adaptris/interlok-custom-component-example?targetFile=build.gradle)
+[![Closed PRs](https://img.shields.io/github/issues-pr-closed/adaptris/interlok-custom-component-example)](https://github.com/adaptris/interlok-custom-component-example/pulls?q=is%3Apr+is%3Aclosed)
+[![CircleCI](https://circleci.com/gh/adaptris/interlok-custom-component-example/tree/gradle.svg?style=svg)](https://circleci.com/gh/adaptris/interlok-custom-component-example/tree/gradle)
+[![AppVeyor](https://ci.appveyor.com/api/projects/status/bxixbf1d9wt4ju4o?svg=true)](https://ci.appveyor.com/project/adaptris/interlok-custom-component-example)
 
 
 A quick start to writing your own custom component; this is just an example of a custom service.
