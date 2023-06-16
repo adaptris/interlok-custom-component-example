@@ -1,13 +1,14 @@
 package com.adaptris.samples;
 
 import static com.adaptris.samples.EchoService.DEFAULT;
-import static org.junit.Assert.assertEquals;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import com.adaptris.core.AdaptrisMessage;
 import com.adaptris.core.AdaptrisMessageFactory;
 import com.adaptris.interlok.junit.scaffolding.services.ExampleServiceCase;
-
 
 public class EchoServiceTest extends ExampleServiceCase {
 
@@ -16,7 +17,7 @@ public class EchoServiceTest extends ExampleServiceCase {
   private AdaptrisMessage message;
   private EchoService service;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     message = AdaptrisMessageFactory.getDefaultInstance().newMessage();
     service = new EchoService();
@@ -39,4 +40,5 @@ public class EchoServiceTest extends ExampleServiceCase {
   protected EchoService retrieveObjectForSampleConfig() {
     return new EchoService();
   }
+
 }

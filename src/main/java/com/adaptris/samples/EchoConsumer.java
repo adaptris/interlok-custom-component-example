@@ -1,49 +1,58 @@
+
 package com.adaptris.samples;
 
-import static com.adaptris.core.AdaptrisMessageFactory.defaultIfNull;
-import java.util.HashSet;
-import java.util.Set;
+import org.apache.commons.lang3.StringUtils;
+
 import com.adaptris.annotation.AdapterComponent;
 import com.adaptris.annotation.ComponentProfile;
+import com.adaptris.annotation.DisplayOrder;
+import com.adaptris.annotation.InputFieldDefault;
 import com.adaptris.core.AdaptrisMessage;
-import com.adaptris.core.AdaptrisPollingConsumer;
-import com.adaptris.core.CoreException;
-import com.adaptris.core.MetadataElement;
-import com.adaptris.core.NullConnection;
-import com.adaptris.core.util.LoggingHelper;
+import com.adaptris.core.ServiceException;
+import com.adaptris.core.ServiceImp;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@XStreamAlias("echo-consumer")
-@ComponentProfile(summary = "Create a payload `hello-world` when triggered",
-    tag = "echo,example,sample")
+@XStreamAlias("echo-service")
 @AdapterComponent
+@ComponentProfile(summary = "Simply put some given string into the message payload", tag = "echo,example,sample")
+@DisplayOrder(order = { "echoMessage" })
 @NoArgsConstructor
-public class EchoConsumer extends AdaptrisPollingConsumer {
+public class EchoService extends ServiceImp {
+
+  static final String DEFAULT = "Hello World.";
+
+  /**
+   * The text to use as the payload.
+   *
+   */
+  @InputFieldDefault(value = DEFAULT)
+  @Getter
+  @Setter
+  private String echoMessage;
 
   @Override
-  protected int processMessages() {
-    int count = 0;
-    try {
-      NullConnection conn = retrieveConnection(NullConnection.class);
-      Set<MetadataElement> metadata = new HashSet<>();
-      metadata.add(new MetadataElement("connection-name", LoggingHelper.friendlyName(conn)));
-      AdaptrisMessage msg =
-          defaultIfNull(getMessageFactory()).newMessage("hello world", metadata);
-      retrieveAdaptrisMessageListener().onAdaptrisMessage(msg);
-      count = 1;
-    } catch (Exception e) {
-      log.warn("Failed to create trigger message; next attempt on next poll");
-      log.trace(e.getMessage(), e);
-    }
-    return count;
+  public void doService(AdaptrisMessage message) throws ServiceException {
+    message.setContent(echoMessage(), message.getContentEncoding());
   }
 
   @Override
-  protected void prepareConsumer() throws CoreException {
-    // Nothing to do.
+  public final void prepare() {
   }
 
+  @Override
+  public final void initService() {
+  }
 
+  @Override
+  public final void closeService() {
+  }
+
+  private String echoMessage() {
+    return StringUtils.defaultIfEmpty(echoMessage, DEFAULT);
+  }
 
 }

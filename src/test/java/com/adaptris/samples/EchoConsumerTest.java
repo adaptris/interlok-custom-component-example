@@ -2,11 +2,13 @@ package com.adaptris.samples;
 
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
+
 import com.adaptris.core.FixedIntervalPoller;
 import com.adaptris.core.StandaloneConsumer;
 import com.adaptris.core.stubs.DefectiveMessageFactory;
@@ -15,13 +17,7 @@ import com.adaptris.core.stubs.MockMessageListener;
 import com.adaptris.interlok.junit.scaffolding.ExampleConsumerCase;
 import com.adaptris.util.TimeInterval;
 
-
 public class EchoConsumerTest extends ExampleConsumerCase {
-
-  @Before
-  public void setUp() throws Exception {
-  }
-
 
   @Override
   protected StandaloneConsumer retrieveObjectForSampleConfig() {
@@ -37,8 +33,8 @@ public class EchoConsumerTest extends ExampleConsumerCase {
     sc.registerAdaptrisMessageListener(listener);
     try {
       start(sc);
-      await().atMost(Duration.ofSeconds(1)).with().pollInterval(Duration.ofMillis(100))
-          .until(listener::messageCount, greaterThanOrEqualTo(1));
+      await().atMost(Duration.ofSeconds(1)).with().pollInterval(Duration.ofMillis(100)).until(listener::messageCount,
+          greaterThanOrEqualTo(1));
       assertEquals("hello world", listener.getMessages().get(0).getContent());
     } finally {
       stop(sc);
