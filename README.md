@@ -17,6 +17,7 @@ A quick start to writing your own custom component; this is just an example of a
 ## Intro
 
 * Java 11 is required for the 4.x branch.
+* Java 17 is required for the 5.x branch.
 
 We default to using gradle as the build tool; this is the preferred build system. You can opt to use something else (check the other branches), but we find gradle gives us the most flexibility along with useful conventions.
 
