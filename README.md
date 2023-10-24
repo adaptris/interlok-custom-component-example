@@ -69,7 +69,8 @@ All these 3rd party items are either fully opensource, or free for opensource pr
 
 Also, we get badges from the apps; and you know what, you [_gotta catch 'em all_](https://www.youtube.com/watch?v=lrHJhKEtQEI). Traditionally, in our opensource development, we always try to use (at least) 3 separate CI build tools following the reasoning that if 1/3 fails, then we can still be confident things are mostly OK; 2/3 we probably have a regression.
 
-* [LGTM](https://lgtm.com) is enabled via a `.lgtm.yml` file; we use this to contextually scan source code.
+* ~~[LGTM](https://lgtm.com) is enabled via a `.lgtm.yml` file; we use this to contextually scan source code.~~
+* CodeQL (LGTM replacement) is enabled via a github action .github/workflows/codeql-analysis.yml; we use this to contextually scan source code.
 * jacoco coverage is enabled and reports will be generated when `check` is invoked
     * If you don't want spotbugs checks then run `./gradlew clean test jacocoTestReport`
 * Spotbugs is enabled via a gradle plugin; this is used to statically analyze source code; the gradle file is annotated such that you can add various filters as required.
