@@ -156,7 +156,7 @@ dependencies {
 
   testImplementation ("com.adaptris:interlok-stubs:$interlokCoreVersion") {changing= true }
 
-  testImplementation ("org.awaitility:awaitility:4.2.1")
+  testImplementation ("org.awaitility:awaitility:4.2.2")
   // Unused deps.
   // testImplementation ("org.mockito:mockito-core:$mockitoVersion")
   // testImplementation ("org.mockito:mockito-inline:$mockitoVersion")
